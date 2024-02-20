@@ -1,46 +1,45 @@
-import { Button, Dropdown, MenuProps, Space } from "antd";
-import { Link } from "react-router-dom";
-
-const items: MenuProps['items'] = [
-    {
-        label: <a href="https://www.antgroup.com">1st menu item</a>,
-        key: '0',
-    },
-    {
-        label: <a href="https://www.aliyun.com">2nd menu item</a>,
-        key: '1',
-    },
-    {
-        type: 'divider',
-    },
-    {
-        label: '3rd menu item',
-        key: '3',
-    },
-];
+import { useState } from 'react';
+import './styles.css';
 
 const Home = () => {
-    return (
-        <div className="flex flex-col gap-8 container m-10">
-            <p className="text-3xl">This is vite + react js + react router dom + tailwind + ant design</p>
-            <div>
-                <Link to={"/contact"}>This is router to contact page</Link>
-            </div>
-            <div>
-                <Link to={"/login"}>Back to login page</Link>
-            </div>
-            <div>
-                <Button className="bg-slate-700" type="primary">This is ant design button example</Button>
-            </div>
-            <div className="border rounded-md self-center px-4 py-2 bg-slate-700">
-                <Dropdown menu={{ items }} trigger={['click']}>
-                    <a onClick={(e) => e.preventDefault()} className="text-blue-50">
-                        <Space>
-                            This is ant design menu dropdown
-                        </Space>
-                    </a>
-                </Dropdown>
+    const [activeTab, setActiveTab] = useState<'for-you' | 'following'>('for-you')
 
+    return (
+        <div className="container mx-auto sm:px-14">
+            <div className="sticky top-0 grid grid-cols-12 max-h-14">
+                <div className="col-span-2  left-0 top-0 h-svh glass-bg border-r-[1px] border-r-gray-200 py-4">
+                    <div>
+                        <p>tassss cha</p>
+                    </div>
+                </div>
+                <div className="col-span-10 sm:col-span-6 max-h-14 glass-bg px-10 pt-2 flex border-b-gray-200 border-b-[1px]  flex-row justify-around items-end">
+                    <div className='cursor-pointer' onClick={() => { setActiveTab('for-you') }}>
+                        <p className={` py-2 border-b-4 ${activeTab === 'for-you' ? 'font-bold  border-b-blue-400' : 'border-b-transparent'}`}>For You</p>
+                    </div>
+                    <div className='cursor-pointer' onClick={() => { setActiveTab('following') }}>
+                        <p className={` py-2 border-b-4 rou ${activeTab === 'following' ? 'font-bold  border-b-blue-400' : 'border-b-transparent'}`}>Following</p>
+                    </div>
+                </div>
+                <div className="col-span-3 max-h-14 glass-bg px-10 py-2 hidden sm:block border-l-[1px]  border-l-gray-200 px-4">
+                    <div>
+                    </div>
+                </div>
+            </div>
+            <div className="grid grid-cols-12 grid-flow-col">
+                <div className="col-span-2" />
+                <div className="col-span-10 sm:col-span-6 bg-white h-svh m-2">
+                    <p>this is content</p>
+                </div>
+                <div className="col-span-3  hidden sm:block border-l-[1px] border-l-gray-200 px-4">
+                    <p>test</p>
+                    <div className='bg-gray-400 rounded-md'>
+                        <p>Subscriber Premium</p>
+                        <p>Subscriber Premium</p>
+                    </div>
+                    <div className='bg-gray-400 rounded-md'>
+                        <p>Trends Terkini</p>
+                    </div>
+                </div>
             </div>
         </div>
     )
