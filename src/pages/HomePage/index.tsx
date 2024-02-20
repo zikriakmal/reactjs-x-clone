@@ -4,6 +4,7 @@ import Button from '../../components/atoms/Button';
 import { Link } from 'react-router-dom';
 import GearIcon from '../../components/atoms/Icons/GearIcon';
 import XIcon from '../../components/atoms/Icons/XIcon';
+import SearchIcon from '../../components/atoms/Icons/SearchIcon';
 
 type tabType = 'for-you' | 'following';
 
@@ -68,9 +69,9 @@ const Navigation = ({ activeTab, setActiveTab }: { activeTab: tabType, setActive
                 </div>
             </div>
             <div className=" col-span-4 max-h-14 bg-white px-4 sm:px-10 py-2 hidden sm:block border-l-[1px]  border-l-gray-200 ">
-                <div className='p-2 focus-within:border-blue-400 flex flex-row border rounded-full bg-gray-100 hover:border-blue-400 border-gray-100 h-full'>
-                    <p>S</p>
-                    <input placeholder='search' className='outline-none hover:border-none px-2 bg-gray-100 w-auto flex-1 overflow-auto' />
+                <div className='p-2 px-3 items-center focus-within:border-blue-400 flex flex-row border rounded-full bg-gray-100 hover:border-blue-400 border-gray-100 h-full'>
+                    <SearchIcon className={'h-4 w-4'} />
+                    <input placeholder='Search' className='outline-none hover:border-none px-2 bg-gray-100 w-auto flex-1 overflow-auto' />
                 </div>
             </div>
         </div>
