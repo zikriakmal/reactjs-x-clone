@@ -1,14 +1,12 @@
 import { useState } from 'react';
-import './styles.css';
 import Button from '../../components/atoms/Button';
 import { Link } from 'react-router-dom';
-import GearIcon from '../../components/atoms/Icons/GearIcon';
-import XIcon from '../../components/atoms/Icons/XIcon';
-import SearchIcon from '../../components/atoms/Icons/SearchIcon';
+import { GearIcon, XIcon, SearchIcon, HomeIcon } from '../../components/atoms/Icons';
+import './styles.css';
 
 type tabType = 'for-you' | 'following';
 
-const Home = ({ props }: any) => {
+const Home = () => {
     const [activeTab, setActiveTab] = useState<tabType>('for-you')
 
     return (
@@ -39,8 +37,16 @@ const Navigation = ({ activeTab, setActiveTab }: { activeTab: tabType, setActive
         <div className="sticky top-0 grid grid-cols-12 max-h-14">
             <div className="col-span-3 left-0 top-0 h-svh glass-bg border-r-[1px] border-r-gray-200 sm:px-20  py-3">
                 <div className='flex flex-col flex-1 h-full'>
-                    <div className='flex-1 px-2'>
+                    <div className='flex-1 px-2 flex flex-col gap-4'>
                         <XIcon className='h-8 w-8' />
+                        <div className='flex flex-row items-center gap-4 cursor-pointer' onClick={() => alert('click home')}>
+                            <HomeIcon className={'h-5 w-5'} />
+                            <p className='font-bold text-lg'>Home</p>
+                        </div>
+                        <div className='flex flex-row items-center gap-4 cursor-pointer' onClick={() => alert('click home')}>
+                            <HomeIcon className={'h-5 w-5'} />
+                            <p className='text-lg'>Explore</p>
+                        </div>
 
                     </div>
                     <div>
@@ -84,7 +90,7 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
         <div className={`grid sticky sm:static grid-cols-12 grid-flow-col ${activeTab === 'for-you' ? 'bg-white' : 'bg-white'}`}>
             <div className="col-span-3" />
             <div className="col-span-10 sm:col-span-5 h-svh m-2">
-                <p>this is content</p>
+                <p>What's Happening?</p>
             </div>
             <div className="col-span-4  sm:px-10 sm:flex-col  hidden sm:block border-l-[1px] border-l-gray-200 px-5">
                 <div className={'flex flex-col gap-3'}>
