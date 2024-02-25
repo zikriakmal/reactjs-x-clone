@@ -1,14 +1,15 @@
+import { CloseOutlined } from '@ant-design/icons';
+import { TextField } from '@mui/material';
+import { Modal } from 'antd';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import XLogo from '../../assets/xlogo.svg';
 import Button from '../../components/atoms/Button';
-import { useState } from 'react';
-import { Modal } from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
-import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 
 const LoginPage = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -44,9 +45,9 @@ const LoginPage = () => {
                             <p className='text-xs mb-[20px]'>By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use.</p>
                             <div className='mt-[40px] flex flex-col'>
                                 <p>Already have an account?</p>
-                                <Link to={'/'} className='flex flex-1'>
+                                <div onClick={() => setIsLoginModalOpen(true)} className='flex flex-1'>
                                     <Button title={'Sign In'} textColor={'primary'} />
-                                </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -73,17 +74,25 @@ const LoginPage = () => {
                 <a href="" className='text-xs hover:underline hover:text-gray-500'>Settings</a>
                 <a href="" className='text-xs hover:underline hover:text-gray-500'>© 2024 X Corp.</a>
             </div>
-            <Modal  title={<ModalHeader handleCancel={handleCancel} />} centered={true} open={isModalOpen} onOk={handleOk} footer={<></>} closeIcon={<></>} onCancel={handleCancel}>
+            <Modal title={<ModalHeader handleCancel={handleCancel} />} centered={true} open={isModalOpen} onOk={handleOk} footer={<></>} closeIcon={<></>} onCancel={handleCancel}>
                 <div className='flex flex-col flex-1 ustify-center py-2 px-10 '>
                     <p className='font-bold text-2xl'>Create Accounts</p>
                     <div className='py-4 '>
                         <TextField id="outlined-basic" label="Name" variant="outlined" style={{ width: '100%' }} />
                     </div>
                     <div className='py-4 '>
-                        <TextField id="outlined-basic" label="Email" variant="outlined" style={{ width: '100%' }} />
+                        <TextField id="outlined-basic" label="Username" variant="outlined" style={{ width: '100%' }} />
+                    </div>
+                    <div className='py-4 '>
+                        <TextField id="outlined-basic" type='password' label="Password" variant="outlined" style={{ width: '100%' }} />
                     </div>
 
-                    <div>
+                    <div >
+                        <Link to={"/"} className='flex flex-1'>
+                            <Button className="" title="Sign Up" />
+                        </Link>
+                    </div>
+                    {/* <div>
                         <p className='font-bold'>Date of Birth</p>
                         <p className='text-xs'>This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or something else.</p>
                     </div>
@@ -124,10 +133,28 @@ const LoginPage = () => {
                                 <MenuItem value={20}>Twenty</MenuItem>
                             </Select>
                         </FormControl>
-                    </div>
-
-
+                    </div> */}
                 </div>
+            </Modal>
+
+
+            <Modal title={<ModalHeader handleCancel={() => setIsLoginModalOpen(false)} />} centered={true} open={isLoginModalOpen} onOk={() => setIsLoginModalOpen(false)} footer={<></>} closeIcon={<></>} onCancel={() => setIsLoginModalOpen(false)}>
+                <form>
+                    <div className='flex flex-col flex-1 ustify-center py-2 px-10 '>
+                        <p className='font-bold text-2xl'>Sign In</p>
+                        <div className='py-4 '>
+                            <TextField id="outlined-basic" label="Username" variant="outlined" style={{ width: '100%' }} required />
+                        </div>
+                        <div className='py-4 '>
+                            <TextField id="outlined-basic" type='password' label="Password" variant="outlined" style={{ width: '100%' }} required />
+                        </div>
+                        <div >
+                            <Link to={"/"} className='flex flex-1'>
+                                <Button type="submit" className="" title="Sign In" />
+                            </Link>
+                        </div>
+                    </div>
+                </form>
             </Modal>
         </div>
     )
