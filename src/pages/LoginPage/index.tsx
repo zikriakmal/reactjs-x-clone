@@ -41,7 +41,7 @@ const LoginPage = () => {
                                 <p className='px-2' >or</p>
                                 <div className='h-[0.5px] w-auto flex-1 bg-gray-200' />
                             </div>
-                            <Button title={'Create Account'} type={"primary"} onClick={() => showModal()} />
+                            <Button title={'Create Account'} variant={"primary"} onClick={() => showModal()} />
                             <p className='text-xs mb-[20px]'>By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use.</p>
                             <div className='mt-[40px] flex flex-col'>
                                 <p>Already have an account?</p>
@@ -89,7 +89,7 @@ const LoginPage = () => {
 
                     <div >
                         <Link to={"/"} className='flex flex-1'>
-                            <Button className="" title="Sign Up" />
+                            <Button variant='primary' title="Sign Up" />
                         </Link>
                     </div>
                     {/* <div>
@@ -142,15 +142,15 @@ const LoginPage = () => {
                 <form>
                     <div className='flex flex-col flex-1 ustify-center py-2 px-10 '>
                         <p className='font-bold text-2xl'>Sign In</p>
-                        <div className='py-4 '>
+                        <div className='py-4'>
                             <TextField id="outlined-basic" label="Username" variant="outlined" style={{ width: '100%' }} required />
                         </div>
-                        <div className='py-4 '>
+                        <div className='py-4'>
                             <TextField id="outlined-basic" type='password' label="Password" variant="outlined" style={{ width: '100%' }} required />
                         </div>
                         <div >
                             <Link to={"/"} className='flex flex-1'>
-                                <Button type="submit" className="" title="Sign In" />
+                                <Button type="submit" variant='primary' title="Sign In" />
                             </Link>
                         </div>
                     </div>

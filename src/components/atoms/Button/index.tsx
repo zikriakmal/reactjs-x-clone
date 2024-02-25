@@ -1,9 +1,20 @@
+import colors from "../../../utils/theme";
 
-const Button = (props: any) => {
+interface Button extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    title?: string;
+    textColor?: 'primary' | undefined;
+    variant?: 'primary' | undefined;
+}
+
+const Button: React.FC<Button> = (props) => {
     return (
-        <button onClick={props.onClick} type='button' className={'flex-1 border p-2 py-3 rounded-full hover:border-gray-500 hover:bg-slate-200 my-2'} style={props?.type === 'primary' ? { backgroundColor: 'rgb(29, 155, 240)', color: 'white' } : {}}>
-            <div className='text-center font-bold' style={props?.textColor === 'primary' ? { color: 'rgb(29, 155, 240)' } : {}}>
-                <p>{props?.title}</p>
+        <button
+            className={'flex-1 border p-2 py-3 rounded-full hover:border-gray-500 hover:bg-slate-200 my-2 cursor-pointer'}
+            style={props?.variant === 'primary' ? { backgroundColor: colors.PRIMARY, color: 'white' } : {}}
+            {...props}
+        >
+            <div className='text-center font-bold px-2' style={props?.textColor === 'primary' ? { color: colors.PRIMARY } : {}}>
+                <p className="text-sm">{props?.title}</p>
             </div>
         </button>
     )
