@@ -1,17 +1,17 @@
-import { ChangeEvent, useState } from 'react';
+import { Dropdown, MenuProps } from 'antd';
+import { ChangeEvent, useContext, useState } from 'react';
 import Button from '../../components/atoms/Button';
-import { Link } from 'react-router-dom';
-import { GearIcon, XIcon, SearchIcon, HomeIcon, ImageIcon, GifIcon } from '../../components/atoms/Icons';
-import './styles.css';
-import PollIcon from '../../components/atoms/Icons/PollIcon';
-import ThreePoint from '../../components/atoms/Icons/ThreePoint';
+import { GearIcon, GifIcon, HomeIcon, ImageIcon, SearchIcon, XIcon } from '../../components/atoms/Icons';
 import ChatIcon from '../../components/atoms/Icons/ChatIcon';
-import RetweetIcon from '../../components/atoms/Icons/RetweetIcon';
 import LoveIcon from '../../components/atoms/Icons/LoveIcon';
-import StatsIcon from '../../components/atoms/Icons/StatsIcon';
+import PollIcon from '../../components/atoms/Icons/PollIcon';
+import RetweetIcon from '../../components/atoms/Icons/RetweetIcon';
 import SaveIcon from '../../components/atoms/Icons/SaveIcon';
 import ShareIcon from '../../components/atoms/Icons/ShareIcon';
-import { Dropdown, MenuProps } from 'antd';
+import StatsIcon from '../../components/atoms/Icons/StatsIcon';
+import ThreePoint from '../../components/atoms/Icons/ThreePoint';
+import './styles.css';
+import AuthContext from '../../context/AuthContext';
 
 type tabType = 'for-you' | 'following';
 
@@ -40,24 +40,6 @@ const items: MenuProps['items'] = [
     },
 ];
 
-const accountItems: MenuProps['items'] = [
-    {
-        key: '1',
-        label: (
-            <a className='font-bold py-2' target="_blank" rel="noopener noreferrer" href="#">
-                Add an existing account
-            </a>
-        ),
-    },
-    {
-        key: '2',
-        label: (
-            <Link to={'/login'}>
-                <p className='font-bold py-2'>Log out @zikriakmals</p>
-            </Link>
-        ),
-    },
-];
 
 const intialContent: Array<contentInt> = [
     {
@@ -97,6 +79,32 @@ const Home = () => {
 }
 
 const Navigation = ({ activeTab, setActiveTab }: { activeTab: tabType, setActiveTab: React.Dispatch<React.SetStateAction<tabType>> }) => {
+    const { setIsLoggedInCtx } = useContext(AuthContext)
+    const name = localStorage.getItem('name');
+    const username = localStorage.getItem('username');
+
+    const accountItems: MenuProps['items'] = [
+        // {
+        //     key: '1',
+        //     label: (
+        //         <a className='font-bold py-2' target="_blank" rel="noopener noreferrer" href="#">
+        //             Add an existing account
+        //         </a>
+        //     ),
+        // },
+        {
+            key: '2',
+            label: (
+                <div onClick={() => {
+                    setIsLoggedInCtx(false);
+                    localStorage.removeItem('accessToken')
+                }}>
+                    <p className='font-bold py-2'>Log out @{username}</p>
+                </div>
+            ),
+        },
+    ];
+
     return (
         <div className="sticky top-0 grid grid-cols-12 max-h-14">
             <div className="hidden sm:block sm:col-span-3 sticky left-0 top-0 h-svh glass-bg border-r-[1px] border-r-gray-200 sm:pl-10  py-3">
@@ -113,14 +121,14 @@ const Navigation = ({ activeTab, setActiveTab }: { activeTab: tabType, setActive
                         </div>
                     </div>
                     <div className='lg:ml-5 lg:mr-2 cursor-pointer'>
-                        <Dropdown menu={{ items: accountItems }} placement="topCenter" arrow>
+                        <Dropdown menu={{ items: accountItems }} placement="top" arrow>
                             <div className='p-2 flex flex-row items-center justify-around rounded-full border border-white hover:border-gray-200'>
                                 <div>
                                     <img className='w-10 h-10 rounded-full' src='https://pbs.twimg.com/profile_images/1547743320780455936/VfK1dCFG_400x400.jpg' />
                                 </div>
                                 <div>
-                                    <p className='font-bold'>Zikri Akmal</p>
-                                    <p className='font-light'>@zikriakmals</p>
+                                    <p className='font-bold'>{name}</p>
+                                    <p className='font-light'>@{username}</p>
                                 </div>
                                 <div>
                                     <ThreePoint className={'h-5 w-5'} />
@@ -176,7 +184,7 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
             <div className="col-span-3 hidden sm:block" />
             <div className="col-span-12 sm:col-span-5 h-svh">
                 <div className='flex flex-row  border-b border-gray-200 pb-2 p-2'>
-                    <img className='w-14 h-14 rounded-full' src='https://pbs.twimg.com/profile_images/1547743320780455936/VfK1dCFG_400x400.jpg' />
+                    <img className='md:w-14 md:h-14 w-14 h-14 sm:w-8 sm:h-8 rounded-full' src='https://pbs.twimg.com/profile_images/1547743320780455936/VfK1dCFG_400x400.jpg' />
                     <div className='flex flex-1 flex-col'>
                         <div className='mx-4 border-b border-gray-200 pb-4 flex flex-1 flex-col'>
                             <textarea value={textContent} onChange={handleInputChange} className='flex-1 py-2 my-1 text-lg font-semibold focus:outline-none' placeholder='What is Happening?'>
@@ -185,8 +193,8 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
                                 <p className='text-center'>🌐 Everyone can reply</p>
                             </div>
                         </div>
-                        <div className='mx-4 flex flex-row items-center'>
-                            <div className='flex flex-row flex-1 gap-2'>
+                        <div className='mx-4 flex flex-row items-center justify-between'>
+                            <div className='flex flex-row gap-2'>
                                 <ImageIcon className={'h-5 w-5 cursor-pointer'} />
                                 <GifIcon className={'h-5 w-5 cursor-pointer'} />
                                 <PollIcon className={'h-5 w-5 cursor-pointer'} />
@@ -230,7 +238,9 @@ const Post = ({ username, fullName, textContent }: { username?: string, fullName
                     </a>
                     <div onClick={() => alert('tes')} className='hover:bg-blue-100 p-1 font-extrabold cursor-pointer rounded-full'>
                         <Dropdown menu={{ items }} placement="bottomRight" arrow>
-                            <ThreePoint className={'h-4 w-4'} />
+                            <div>
+                                <ThreePoint className={'h-4 w-4'} />
+                            </div>
                         </Dropdown>
                     </div>
                 </div>
