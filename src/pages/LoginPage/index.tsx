@@ -8,7 +8,6 @@ import XLogo from '../../assets/xlogo.svg';
 import Button from '../../components/atoms/Button';
 import AuthContext from '../../context/AuthContext';
 import { login, register } from '../../services/public/auth';
-import { AxiosError } from 'axios';
 
 const LoginPage = () => {
 
