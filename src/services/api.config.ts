@@ -1,7 +1,7 @@
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:8080'
+const baseUrl = import.meta.env.VITE_API_URL
 
 const guardApi = axios.create({baseURL: baseUrl});
 const publicApi = axios.create({baseURL: baseUrl});
