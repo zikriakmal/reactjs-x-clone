@@ -1,8 +1,8 @@
 import { CloseOutlined } from '@ant-design/icons';
 import { TextField } from '@mui/material';
 import { Modal } from 'antd';
-import { Formik } from 'formik';
-import { useContext, useState } from 'react';
+import { Formik, FormikProps } from 'formik';
+import { useContext, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import XLogo from '../../assets/xlogo.svg';
 import Button from '../../components/atoms/Button';
@@ -86,6 +86,9 @@ const ModalHeader = ({ handleCancel }: { handleCancel: any }) => {
 
 const ModalRegister = ({ setIsRegisterModalOpen, isRegisterModalOpen }: { setIsRegisterModalOpen: any, isRegisterModalOpen: boolean }) => {
     const { setIsLoggedInCtx } = useContext(AuthContext)
+    const [errorsApi, setErrorsApi] = useState<string>("")
+
+    const formikRef = useRef<any>();
     const signUpSchema = Yup.object().shape({
         name: Yup.string().required('Name is required'),
         username: Yup.string().required('Username is required').matches(/^(\S+$)/g, '* This field cannot contain only blankspaces'),
@@ -93,17 +96,33 @@ const ModalRegister = ({ setIsRegisterModalOpen, isRegisterModalOpen }: { setIsR
     });
 
     return (
-        <Modal title={<ModalHeader handleCancel={() => setIsRegisterModalOpen(false)} />} centered={true} open={isRegisterModalOpen} onOk={() => { }} footer={<></>} closeIcon={<></>} onCancel={() => setIsRegisterModalOpen(false)}>
+        <Modal title={<ModalHeader
+            handleCancel={() => {
+                formikRef?.current?.resetForm();
+                setIsRegisterModalOpen(false)
+            }} />}
+            centered={true}
+            open={isRegisterModalOpen}
+            onOk={() => { }}
+            footer={<></>}
+            closeIcon={<></>}
+            onCancel={() => formikRef?.current?.resetForm()}>
             <Formik
+                innerRef={formikRef}
                 initialValues={{ name: '', username: '', password: '' }}
                 onSubmit={async (values, { setSubmitting }) => {
                     setSubmitting(true);
-                    const res = await register({ name: values.name, username: values.username, password: values.password })
-                    if (res.status === 200) {
-                        setIsLoggedInCtx(true)
-                        localStorage.setItem('name', res.data?.data?.user?.name)
-                        localStorage.setItem('username', res.data?.data?.user?.username)
-                        localStorage.setItem('accessToken', res.data?.data?.accessToken)
+                    try {
+                        const res = await register({ name: values.name, username: values.username, password: values.password })
+                        if (res.status === 200) {
+                            setIsLoggedInCtx(true)
+                            localStorage.setItem('name', res.data?.data?.user?.name)
+                            localStorage.setItem('username', res.data?.data?.user?.username)
+                            localStorage.setItem('accessToken', res.data?.data?.accessToken)
+                        }
+                    }
+                    catch (e: any) {
+                        e?.response?.status === 400 ? setErrorsApi(e?.response?.data?.errors) : null
                     }
                     setSubmitting(false);
                 }}
@@ -134,11 +153,12 @@ const ModalRegister = ({ setIsRegisterModalOpen, isRegisterModalOpen }: { setIsR
                             <div className='py-4 '>
                                 <TextField onBlur={handleBlur} value={values.password} name='password' onChange={handleChange} className='w-full' autoComplete='true' type='password' label="Password" variant="outlined" />
                                 {errors.password && touched.password ? <p className='text-sm text-red-500'>{errors.password}</p> : null}
-
+                            </div>
+                            <div>
+                                {errorsApi !== "" ? <p className='text-sm text-red-500'>{errorsApi}</p> : null}
                             </div>
                             <div className='flex flex-1'>
                                 <Button type="submit" disabled={!isValid} variant='primary' title={isSubmitting ? "loading..." : "Sign Up"} />
-
                             </div>
                         </div>
                     </form>
@@ -206,7 +226,6 @@ const ModalLogin = ({ setIsLoginModalOpen, isLoginModalOpen }: { setIsLoginModal
                                 <Button type="submit" disabled={!isValid} variant='primary' title={isSubmitting ? "loading..." : "Sign In"} />
                             </div>
                         </div>
-
                     </form>)}
             </Formik>
         </Modal>

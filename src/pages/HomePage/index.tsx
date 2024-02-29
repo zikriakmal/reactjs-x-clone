@@ -111,11 +111,11 @@ const Navigation = ({ activeTab, setActiveTab }: { activeTab: tabType, setActive
                 <div className='flex flex-col flex-1 h-full'>
                     <div className='flex-1 px-2 flex flex-col gap-4 lg:ml-10 lg:mr-2'>
                         <XIcon className='h-8 w-8' />
-                        <div className='flex flex-row items-center gap-4 cursor-pointer' onClick={() => alert('click home')}>
+                        <div className='flex flex-row items-center gap-4 cursor-pointer' onClick={() => console.log('-')}>
                             <HomeIcon className={'h-5 w-5'} />
                             <p className='font-bold text-lg'>Home</p>
                         </div>
-                        <div className='flex flex-row items-center gap-4 cursor-pointer' onClick={() => alert('click home')}>
+                        <div className='flex flex-row items-center gap-4 cursor-pointer' onClick={() => alert('This feature is undermaintenance')}>
                             <SearchIcon className={'h-5 w-5'} />
                             <p className='text-lg'>Explore</p>
                         </div>
@@ -236,13 +236,11 @@ const Post = ({ username, fullName, textContent }: { username?: string, fullName
                     <a href="#" className='flex-1'>
                         <p className='text-sm text-black font-semibold'>{fullName} <span className='font-bold'>{username}</span> </p>
                     </a>
-                    <div onClick={() => alert('tes')} className='hover:bg-blue-100 p-1 font-extrabold cursor-pointer rounded-full'>
-                        <Dropdown menu={{ items }} placement="bottomRight" arrow>
-                            <div>
-                                <ThreePoint className={'h-4 w-4'} />
-                            </div>
-                        </Dropdown>
-                    </div>
+                    <Dropdown menu={{ items }}  placement="bottomRight" arrow>
+                        <div className='hover:bg-blue-100 p-1 font-extrabold cursor-pointer rounded-full'>
+                            <ThreePoint className={'h-4 w-4'} />
+                        </div>
+                    </Dropdown>
                 </div>
                 <div className='pb-4'>
                     <div dangerouslySetInnerHTML={{ __html: textContent?.replace(/\n/g, '<br />') ?? '' }} />
