@@ -1,5 +1,5 @@
 import { Dropdown, MenuProps } from 'antd';
-import { ChangeEvent, useContext, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import Button from '../../components/atoms/Button';
 import { GearIcon, GifIcon, HomeIcon, ImageIcon, SearchIcon, XIcon } from '../../components/atoms/Icons';
 import ChatIcon from '../../components/atoms/Icons/ChatIcon';
@@ -12,6 +12,7 @@ import StatsIcon from '../../components/atoms/Icons/StatsIcon';
 import ThreePoint from '../../components/atoms/Icons/ThreePoint';
 import './styles.css';
 import AuthContext from '../../context/AuthContext';
+import { createPost, getAllPost } from '../../services/guarded/post';
 
 type tabType = 'for-you' | 'following';
 
@@ -169,13 +170,38 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
     const [textContent, setTextContent] = useState<string>('');
     const [posts, setPosts] = useState<Array<contentInt>>(intialContent);
 
+    useEffect(() => {
+        getAll()
+    }, [])
+
     const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         setTextContent(event.target.value ?? "");
     };
 
-    const handleSubmitPost = () => {
+    const handleSubmitPost = async () => {
         setTextContent("");
-        setPosts([{ fullName: 'Zikri Akmal S', username: '@zikriakmals', textContent: textContent }, ...posts])
+        try {
+            try {
+                const res = await createPost({ post: textContent });
+                if (res?.status === 200) {
+                    getAll()
+                }
+            } catch (e) {
+                console.log(e, 'error posting content')
+            }
+        } catch (e) {
+
+        }
+    }
+
+    const getAll = async () => {
+        getAllPost().then((data: any) => setPosts(data?.data?.data?.map((mp: any) => {
+            return {
+                fullName: mp.user.name,
+                username: mp.user.username,
+                textContent: mp.post
+            }
+        })))
     }
 
     return (
@@ -236,7 +262,7 @@ const Post = ({ username, fullName, textContent }: { username?: string, fullName
                     <a href="#" className='flex-1'>
                         <p className='text-sm text-black font-semibold'>{fullName} <span className='font-bold'>{username}</span> </p>
                     </a>
-                    <Dropdown menu={{ items }}  placement="bottomRight" arrow>
+                    <Dropdown menu={{ items }} placement="bottomRight" arrow>
                         <div className='hover:bg-blue-100 p-1 font-extrabold cursor-pointer rounded-full'>
                             <ThreePoint className={'h-4 w-4'} />
                         </div>

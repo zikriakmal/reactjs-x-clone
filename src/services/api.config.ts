@@ -8,7 +8,7 @@ const publicApi = axios.create({baseURL: baseUrl});
 
 guardApi.interceptors.request.use(
   async config => {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('accessToken');
     if (token) {
       config.headers.Authorization = 'Bearer ' + token;
     }
