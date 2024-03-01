@@ -195,7 +195,7 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
         // checking tab is working tho
         <div className={`grid  grid-cols-12 grid-flow-col ${activeTab === 'for-you' ? 'bg-white' : 'bg-white'}`}>
             <div className="col-span-3 hidden sm:block" />
-            <div className="col-span-12 sm:col-span-5">
+            <div className="col-span-12 sm:col-span-5 min-h-svh">
                 <div className='flex flex-row  border-b border-gray-200 pb-2 p-2'>
                     <img className='md:w-10 md:h-10 w-10 h-10 sm:w-10 sm:h-10 rounded-full' src='https://pbs.twimg.com/profile_images/1547743320780455936/VfK1dCFG_400x400.jpg' />
                     <div className='flex flex-1 flex-col'>
