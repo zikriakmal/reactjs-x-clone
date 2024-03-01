@@ -6,6 +6,7 @@ import Contact from './pages/ContactPage/index'
 import Home from './pages/HomePage/index'
 import LoginPage from './pages/LoginPage/index'
 import Loading from './components/molecules/Loading'
+import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
   const [isLoggedInCtx, setIsLoggedInCtx] = useState<boolean>(false);
@@ -27,11 +28,13 @@ function App() {
           {isLoggedInCtx ?
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path='*' element={<NotFoundPage />} />
             </Routes>
             : (
               <Routes>
-                <Route path="/contact" element={<Contact />} />
                 <Route path="/" element={<LoginPage />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path='*' element={<NotFoundPage />} />
               </Routes>
             )}
         </AuthContext.Provider>
