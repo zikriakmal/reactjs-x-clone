@@ -229,7 +229,7 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
                     })
                 }
             </div>
-            <div className="col-span-4 py-10  sm:px-10 sm:flex-col  hidden sm:block border-l-[1px] border-l-gray-200 px-5 static ">
+            <div className="col-span-4 py-10  sm:px-10 sm:flex-col  hidden sm:block border-l-[1px] border-l-gray-200 px-5 h-dvh static ">
                 <div className={'flex flex-col gap-3'}>
                     <div className='bg-gray-200 rounded-md p-4'>
                         <p className='text-lg font-bold'>Subscriber Premium</p>
