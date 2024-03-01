@@ -15,6 +15,7 @@ import AuthContext from '../../context/AuthContext';
 import { createPost, deletePostById, getAllPost } from '../../services/guarded/post';
 import './styles.css';
 import BellIcon from '../../components/atoms/Icons/BellIcon';
+import MessageIcon from '../../components/atoms/Icons/MessageIcon';
 
 type tabType = 'for-you' | 'following';
 
@@ -52,7 +53,7 @@ const Home = () => {
                 <HomeIcon className={'h-6 w-6'} />
                 <SearchIcon className={'h-6 w-6'} />
                 <BellIcon className={'h-6 w-6'} />
-                <p>test</p>
+                <MessageIcon className={'h-6 w-6'} />
             </div>
         </div>
     )
