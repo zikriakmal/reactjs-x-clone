@@ -49,7 +49,7 @@ const Home = () => {
             <Content activeTab={activeTab} />
 
             {/* bottom navigation for mobile */}
-            <div className='sm:hidden absolute py-4 border-t border-t-gray-100 bottom-0 flex flex-row justify-around items-center w-dvw bg-white'>
+            <div className='sm:hidden sticky py-4 border-t border-t-gray-100 bottom-0 flex flex-row justify-around items-center w-dvw bg-white'>
                 <HomeIcon className={'h-6 w-6'} />
                 <SearchIcon className={'h-6 w-6'} />
                 <BellIcon className={'h-6 w-6'} />
