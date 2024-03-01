@@ -14,4 +14,9 @@ const getAllPost = async () => {
     return res;
 }
 
-export { createPost, getAllPost }
+const deletePostById = async (id:number) =>{
+    const res = await guardApi.delete('/api/v1/posts/'+id)    
+    return res; 
+}
+
+export { createPost, getAllPost, deletePostById }

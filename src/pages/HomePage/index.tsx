@@ -12,7 +12,9 @@ import StatsIcon from '../../components/atoms/Icons/StatsIcon';
 import ThreePoint from '../../components/atoms/Icons/ThreePoint';
 import './styles.css';
 import AuthContext from '../../context/AuthContext';
-import { createPost, getAllPost } from '../../services/guarded/post';
+import { createPost, deletePostById, getAllPost } from '../../services/guarded/post';
+import Loading from '../../components/molecules/Loading';
+import AccountIcon from '../../components/atoms/Icons/AccountIcon';
 
 type tabType = 'for-you' | 'following';
 
@@ -21,14 +23,18 @@ interface contentInt {
     username: string;
     fullName: string;
     textContent: string;
+    userId: number;
+    formattedUpdatedAtDifference: string;
 }
 
 
 
 const Home = () => {
     const [activeTab, setActiveTab] = useState<tabType>('for-you')
+
     return (
         <div className="container mx-auto lg:px-16">
+
             {/* top and side navigation for desktop and tablet */}
             <div className='hidden sm:block sticky top-0'>
                 <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -89,6 +95,10 @@ const Navigation = ({ activeTab, setActiveTab }: { activeTab: tabType, setActive
                         <div className='flex flex-row items-center gap-4 cursor-pointer' onClick={() => alert('This feature is undermaintenance')}>
                             <SearchIcon className={'h-5 w-5'} />
                             <p className='text-lg'>Explore</p>
+                        </div>
+                        <div className='flex flex-row items-center gap-4 cursor-pointer' onClick={() => alert('This feature is undermaintenance')}>
+                            <AccountIcon className={'h-5 w-5'} />
+                            <p className='text-lg'>Profile</p>
                         </div>
                     </div>
                     <div className='lg:ml-5 lg:mr-2 cursor-pointer'>
@@ -167,10 +177,12 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
     const getAll = async () => {
         getAllPost().then((data: any) => setPosts(data?.data?.data?.map((mp: any) => {
             return {
-                id: mp.user.id,
+                id: mp.id,
+                userId: mp.user.id,
                 fullName: mp.user.name,
                 username: mp.user.username,
-                textContent: mp.post
+                textContent: mp.post,
+                formattedUpdatedAtDifference: mp.formattedUpdatedAtDifference
             }
         })))
     }
@@ -204,11 +216,20 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
                 </div>
                 {
                     posts.map((dt: contentInt, index: number) => {
-                        return (<Post id={dt.id} username={dt.username} fullName={dt.fullName} textContent={dt.textContent} key={index} />)
+                        return (
+                            <Post
+                                refreshPosts={getAll}
+                                userId={dt.userId} id={dt.id}
+                                username={dt.username}
+                                fullName={dt.fullName}
+                                textContent={dt.textContent}
+                                key={index}
+                                formattedUpdatedAtDifference={dt.formattedUpdatedAtDifference}
+                            />)
                     })
                 }
             </div>
-            <div className="col-span-4 py-10  sm:px-10 sm:flex-col  hidden sm:block border-l-[1px] border-l-gray-200 px-5">
+            <div className="col-span-4 py-10  sm:px-10 sm:flex-col  hidden sm:block border-l-[1px] border-l-gray-200 px-5 static ">
                 <div className={'flex flex-col gap-3'}>
                     <div className='bg-gray-200 rounded-md p-4'>
                         <p className='text-lg font-bold'>Subscriber Premium</p>
@@ -222,8 +243,15 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
         </div>)
 }
 
-const Post = ({ id, username, fullName, textContent }: { id: number, username?: string, fullName?: string, textContent?: string }) => {
-    const createdAt = "Now"
+const Post = ({ id, userId, username, fullName, textContent, refreshPosts, formattedUpdatedAtDifference }: {
+    id: number,
+    userId: number,
+    username?: string,
+    fullName?: string,
+    textContent?: string,
+    refreshPosts: any
+    formattedUpdatedAtDifference?: string,
+}) => {
     const authId = Number(localStorage.getItem('id'));
     const baseItem = [
         {
@@ -240,15 +268,18 @@ const Post = ({ id, username, fullName, textContent }: { id: number, username?: 
         {
             key: '1',
             label: (
-                <a target="_blank" rel="noopener noreferrer" href="#">
-                    Delete Tweet
-                </a>
+                <div onClick={() => deletePostById(id).then(() => refreshPosts())}>
+                    <p>
+                        Delete Tweet
+                    </p>
+                </div>
+
             ),
         },
         ...baseItem
     ]
 
-    const items: MenuProps['items'] = authId === id ? authItem : baseItem;
+    const items: MenuProps['items'] = authId === userId ? authItem : baseItem;
 
     return (
         <div className='flex flex-row hover:bg-gray-100 cursor-pointer p-2 py-1 border-b'>
@@ -258,7 +289,7 @@ const Post = ({ id, username, fullName, textContent }: { id: number, username?: 
             <div className='flex flex-col flex-1 px-2 py-1'>
                 <div className='flex flex-row'>
                     <a href="#" className='flex-1'>
-                        <p className='text-sm text-black font-semibold'>{fullName} <span className='font-light'>@{username} · {createdAt}</span>  </p>
+                        <p className='text-sm text-black font-semibold'>{fullName} <span className='font-light'>@{username} · </span><span className='text-xs font-light'>{formattedUpdatedAtDifference}</span>  </p>
                     </a>
                     <Dropdown menu={{ items }} placement="bottomRight" arrow>
                         <div className='hover:bg-blue-100 p-1 font-extrabold cursor-pointer rounded-full'>
