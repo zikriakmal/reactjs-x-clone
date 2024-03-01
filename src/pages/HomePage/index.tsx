@@ -2,6 +2,7 @@ import { Dropdown, MenuProps } from 'antd';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import Button from '../../components/atoms/Button';
 import { GearIcon, GifIcon, HomeIcon, ImageIcon, SearchIcon, XIcon } from '../../components/atoms/Icons';
+import AccountIcon from '../../components/atoms/Icons/AccountIcon';
 import ChatIcon from '../../components/atoms/Icons/ChatIcon';
 import LoveIcon from '../../components/atoms/Icons/LoveIcon';
 import PollIcon from '../../components/atoms/Icons/PollIcon';
@@ -10,11 +11,9 @@ import SaveIcon from '../../components/atoms/Icons/SaveIcon';
 import ShareIcon from '../../components/atoms/Icons/ShareIcon';
 import StatsIcon from '../../components/atoms/Icons/StatsIcon';
 import ThreePoint from '../../components/atoms/Icons/ThreePoint';
-import './styles.css';
 import AuthContext from '../../context/AuthContext';
 import { createPost, deletePostById, getAllPost } from '../../services/guarded/post';
-import Loading from '../../components/molecules/Loading';
-import AccountIcon from '../../components/atoms/Icons/AccountIcon';
+import './styles.css';
 
 type tabType = 'for-you' | 'following';
 
