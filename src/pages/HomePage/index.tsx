@@ -226,7 +226,7 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
                                 <PollIcon className={'h-5 w-5 cursor-pointer'} />
                             </div>
                             <div>
-                                <Button variant='primary' type='button' onClick={handleSubmitPost} title='POST' />
+                                <Button variant='primary' disabled={textContent === ""} type='button' onClick={handleSubmitPost} title='POST' />
                             </div>
                         </div>
                     </div>
