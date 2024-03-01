@@ -206,9 +206,9 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
 
     return (
         // checking tab is working tho
-        <div className={`grid sticky sm:static grid-cols-12 grid-flow-col ${activeTab === 'for-you' ? 'bg-white' : 'bg-white'}`}>
+        <div className={`grid  grid-cols-12 grid-flow-col ${activeTab === 'for-you' ? 'bg-white' : 'bg-white'}`}>
             <div className="col-span-3 hidden sm:block" />
-            <div className="col-span-12 sm:col-span-5 h-svh">
+            <div className="col-span-12 sm:col-span-5">
                 <div className='flex flex-row  border-b border-gray-200 pb-2 p-2'>
                     <img className='md:w-14 md:h-14 w-14 h-14 sm:w-8 sm:h-8 rounded-full' src='https://pbs.twimg.com/profile_images/1547743320780455936/VfK1dCFG_400x400.jpg' />
                     <div className='flex flex-1 flex-col'>
@@ -252,6 +252,7 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
 }
 
 const Post = ({ username, fullName, textContent }: { username?: string, fullName?: string, textContent?: string }) => {
+    const createdAt = "Now"
     return (
         <div className='flex flex-row hover:bg-gray-100 cursor-pointer p-2 py-1 border-b'>
             <div className='m-1'>
@@ -260,7 +261,7 @@ const Post = ({ username, fullName, textContent }: { username?: string, fullName
             <div className='flex flex-col flex-1 px-2 py-1'>
                 <div className='flex flex-row'>
                     <a href="#" className='flex-1'>
-                        <p className='text-sm text-black font-semibold'>{fullName} <span className='font-bold'>{username}</span> </p>
+                        <p className='text-sm text-black font-semibold'>{fullName} <span className='font-light'>@{username} · {createdAt}</span>  </p>
                     </a>
                     <Dropdown menu={{ items }} placement="bottomRight" arrow>
                         <div className='hover:bg-blue-100 p-1 font-extrabold cursor-pointer rounded-full'>
