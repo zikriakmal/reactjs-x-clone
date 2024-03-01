@@ -17,43 +17,13 @@ import { createPost, getAllPost } from '../../services/guarded/post';
 type tabType = 'for-you' | 'following';
 
 interface contentInt {
+    id: number;
     username: string;
     fullName: string;
     textContent: string;
 }
 
-const items: MenuProps['items'] = [
-    {
-        key: '1',
-        label: (
-            <a target="_blank" rel="noopener noreferrer" href="#">
-                Delete Tweet
-            </a>
-        ),
-    },
-    {
-        key: '2',
-        label: (
-            <a target="_blank" rel="noopener noreferrer" href="#">
-                Pin Tweet
-            </a>
-        ),
-    },
-];
 
-
-const intialContent: Array<contentInt> = [
-    {
-        username: '@zikriakmals',
-        fullName: 'Zikri Akmal S',
-        textContent: 'initial Tweet 1'
-    },
-    {
-        username: '@zikriakmals',
-        fullName: 'Zikri Akmal S',
-        textContent: 'initial Tweet 2'
-    }
-]
 
 const Home = () => {
     const [activeTab, setActiveTab] = useState<tabType>('for-you')
@@ -168,7 +138,7 @@ const Navigation = ({ activeTab, setActiveTab }: { activeTab: tabType, setActive
 
 const Content = ({ activeTab }: { activeTab: tabType }) => {
     const [textContent, setTextContent] = useState<string>('');
-    const [posts, setPosts] = useState<Array<contentInt>>(intialContent);
+    const [posts, setPosts] = useState<Array<contentInt>>([]);
 
     useEffect(() => {
         getAll()
@@ -197,6 +167,7 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
     const getAll = async () => {
         getAllPost().then((data: any) => setPosts(data?.data?.data?.map((mp: any) => {
             return {
+                id: mp.user.id,
                 fullName: mp.user.name,
                 username: mp.user.username,
                 textContent: mp.post
@@ -210,10 +181,10 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
             <div className="col-span-3 hidden sm:block" />
             <div className="col-span-12 sm:col-span-5">
                 <div className='flex flex-row  border-b border-gray-200 pb-2 p-2'>
-                    <img className='md:w-14 md:h-14 w-14 h-14 sm:w-8 sm:h-8 rounded-full' src='https://pbs.twimg.com/profile_images/1547743320780455936/VfK1dCFG_400x400.jpg' />
+                    <img className='md:w-10 md:h-10 w-10 h-10 sm:w-10 sm:h-10 rounded-full' src='https://pbs.twimg.com/profile_images/1547743320780455936/VfK1dCFG_400x400.jpg' />
                     <div className='flex flex-1 flex-col'>
                         <div className='mx-4 border-b border-gray-200 pb-4 flex flex-1 flex-col'>
-                            <textarea value={textContent} onChange={handleInputChange} className='flex-1 py-2 my-1 text-lg font-semibold focus:outline-none' placeholder='What is Happening?'>
+                            <textarea value={textContent} onChange={handleInputChange} className='flex-1 py-2 my-1 text-lg font-lg focus:outline-none' placeholder='What is Happening?'>
                             </textarea>
                             <div className='hover:bg-blue-50 text-blue-400 font-extrabold cursor-pointer rounded-full self-start px-2 py-1'>
                                 <p className='text-center'>🌐 Everyone can reply</p>
@@ -233,7 +204,7 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
                 </div>
                 {
                     posts.map((dt: contentInt, index: number) => {
-                        return (<Post username={dt.username} fullName={dt.fullName} textContent={dt.textContent} key={index} />)
+                        return (<Post id={dt.id} username={dt.username} fullName={dt.fullName} textContent={dt.textContent} key={index} />)
                     })
                 }
             </div>
@@ -251,8 +222,34 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
         </div>)
 }
 
-const Post = ({ username, fullName, textContent }: { username?: string, fullName?: string, textContent?: string }) => {
+const Post = ({ id, username, fullName, textContent }: { id: number, username?: string, fullName?: string, textContent?: string }) => {
     const createdAt = "Now"
+    const authId = Number(localStorage.getItem('id'));
+    const baseItem = [
+        {
+            key: '2',
+            label: (
+                <a target="_blank" rel="noopener noreferrer" href="#">
+                    Pin Tweet
+                </a>
+            ),
+        },
+    ]
+
+    const authItem = [
+        {
+            key: '1',
+            label: (
+                <a target="_blank" rel="noopener noreferrer" href="#">
+                    Delete Tweet
+                </a>
+            ),
+        },
+        ...baseItem
+    ]
+
+    const items: MenuProps['items'] = authId === id ? authItem : baseItem;
+
     return (
         <div className='flex flex-row hover:bg-gray-100 cursor-pointer p-2 py-1 border-b'>
             <div className='m-1'>

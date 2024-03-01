@@ -118,6 +118,7 @@ const ModalRegister = ({ setIsRegisterModalOpen, isRegisterModalOpen }: { setIsR
                             setIsLoggedInCtx(true)
                             localStorage.setItem('name', res.data?.data?.user?.name)
                             localStorage.setItem('username', res.data?.data?.user?.username)
+                            localStorage.setItem('id', res.data?.data?.user?.id)
                             localStorage.setItem('accessToken', res.data?.data?.accessToken)
                         }
                     }
@@ -189,6 +190,7 @@ const ModalLogin = ({ setIsLoginModalOpen, isLoginModalOpen }: { setIsLoginModal
                             setIsLoggedInCtx(true)
                             localStorage.setItem('name', res.data?.data?.user?.name)
                             localStorage.setItem('username', res.data?.data?.user?.username)
+                            localStorage.setItem('id', res.data?.data?.user?.id)
                             localStorage.setItem('accessToken', res.data?.data?.accessToken)
                         }
                     } catch (e: any) {
