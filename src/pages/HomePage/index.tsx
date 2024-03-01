@@ -233,13 +233,13 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
                     })
                 }
             </div>
-            <div className="col-span-4 py-10  sm:px-10 sm:flex-col  hidden sm:block border-l-[1px] border-l-gray-200 px-5 h-dvh static ">
-                <div className={'flex flex-col gap-3'}>
+            <div className="col-span-4 py-10  sm:px-10 sm:flex-col  hidden sm:block border-l-[1px] border-l-gray-200 px-5  flex-1 sticky min-h-svh">
+                <div className={'flex flex-col gap-3 flex-1 '}>
                     <div className='bg-gray-200 rounded-md p-4'>
                         <p className='text-lg font-bold'>Subscriber Premium</p>
                         <p className='text-xs'>Subscriber Premium</p>
                     </div>
-                    <div className='bg-gray-200 rounded-md p-4'>
+                    <div className='bg-gray-200 rounded-md p-4 flex-1'>
                         <p>Trends Terkini</p>
                     </div>
                 </div>
