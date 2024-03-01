@@ -1,7 +1,7 @@
 import { CloseOutlined } from '@ant-design/icons';
 import { TextField } from '@mui/material';
 import { Modal } from 'antd';
-import { Formik, FormikProps } from 'formik';
+import { Formik } from 'formik';
 import { useContext, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import XLogo from '../../assets/xlogo.svg';
@@ -13,6 +13,7 @@ const LoginPage = () => {
 
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+    const [isUnderConstructionModalOpen, setIsUnderConstructionModalOpen] = useState(false);
 
 
     return (
@@ -26,8 +27,8 @@ const LoginPage = () => {
                     <p className='text-4xl font-bold font-serif mb-10'>Join today. </p>
                     <div >
                         <div className='flex flex-col  sm:max-w-96 sm:px-0 px-10 self-center flex-1 '>
-                            <Button title={'Continue With google'} />
-                            <Button title={'Sign Up With Apple'} />
+                            <Button onClick={() => setIsUnderConstructionModalOpen(true)} title={'Continue With google'} />
+                            <Button onClick={() => setIsUnderConstructionModalOpen(true)} title={'Sign Up With Apple'} />
                             <div className='flex flex-row items-center'>
                                 <div className='h-[0.5px] w-auto flex-1 bg-gray-200' />
                                 <p className='px-2' >or</p>
@@ -68,6 +69,7 @@ const LoginPage = () => {
             </div>
             <ModalRegister isRegisterModalOpen={isRegisterModalOpen} setIsRegisterModalOpen={setIsRegisterModalOpen} />
             <ModalLogin isLoginModalOpen={isLoginModalOpen} setIsLoginModalOpen={setIsLoginModalOpen} />
+            <ModalUnderContruction isUnderContructionModalOpen={isUnderConstructionModalOpen} setIsUnderConstructionModalOpen={setIsUnderConstructionModalOpen} />
         </div>
     )
 }
@@ -234,5 +236,12 @@ const ModalLogin = ({ setIsLoginModalOpen, isLoginModalOpen }: { setIsLoginModal
     )
 }
 
+const ModalUnderContruction = ({ setIsUnderConstructionModalOpen, isUnderContructionModalOpen }: { setIsUnderConstructionModalOpen: any, isUnderContructionModalOpen: boolean }) => {
+    return (
+        <Modal title="Underconstruction!!!" centered={true} open={isUnderContructionModalOpen} footer={<></>} onOk={()=>setIsUnderConstructionModalOpen(false)} onCancel={()=>setIsUnderConstructionModalOpen(false)}>
+            <p>Stay tune! Feature is underconstruction!</p>
+        </Modal>
+    )
+}
 
 export default LoginPage;

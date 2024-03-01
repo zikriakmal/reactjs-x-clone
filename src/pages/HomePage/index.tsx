@@ -47,7 +47,7 @@ const Home = () => {
             <Content activeTab={activeTab} />
 
             {/* bottom navigation for mobile */}
-            <div className='sm:hidden sticky bottom-0'>
+            <div className='sm:hidden absolute bottom-0'>
                 <p></p>
             </div>
         </div>
