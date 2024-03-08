@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
 import AuthContext from './context/AuthContext'
-import Contact from './pages/ContactPage/index'
 import Home from './pages/HomePage/index'
 import LoginPage from './pages/LoginPage/index'
 import Loading from './components/molecules/Loading'
 import NotFoundPage from './pages/NotFoundPage'
+import './App.css'
 
 function App() {
   const [isLoggedInCtx, setIsLoggedInCtx] = useState<boolean>(false);
@@ -25,18 +24,20 @@ function App() {
     <BrowserRouter>
       {isLoading ? <Loading isLoading={true} /> :
         <AuthContext.Provider value={{ isLoggedInCtx: isLoggedInCtx, setIsLoggedInCtx: setIsLoggedInCtx }}>
-          {isLoggedInCtx ?
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path='*' element={<NotFoundPage />} />
-            </Routes>
-            : (
-              <Routes>
-                <Route path="/" element={<LoginPage />} />
-                <Route path="/contact" element={<Contact />} />
+
+          <Routes>
+            {isLoggedInCtx ?
+              <>
+                <Route path="/" element={<Home />} />
                 <Route path='*' element={<NotFoundPage />} />
-              </Routes>
-            )}
+              </>
+              : (
+                <>
+                  <Route path="/" element={<LoginPage />} />
+                </>
+              )}
+            <Route path='*' element={<NotFoundPage />} />
+          </Routes>
         </AuthContext.Provider>
       }
     </BrowserRouter >

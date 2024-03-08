@@ -22,9 +22,12 @@ const LoginPage = () => {
                 <div className='sm:flex sm:flex-1 hidden justify-center p-1'>
                     <img src={XLogo} />
                 </div>
-                <div className='flex-1 justify-center p-1 text-center sm:text-left'>
-                    <p className='text-7xl font-bold font-serif my-10 break-all'>Happening now</p>
-                    <p className='text-4xl font-bold font-serif mb-10'>Join today. </p>
+                <div className='flex-1 justify-center p-1 sm:text-left'>
+                    <div className='flex sm:hidden justify-start px-10 pt-5'>
+                        <img src={XLogo} className={'w-10 h-10'} />
+                    </div>
+                    <p className='text-4xl sm:text-7xl font-bold font-serif my-10 break-all px-10 sm:px-0'>Happening now</p>
+                    <p className='text-3xl font-bold font-serif mb-10 px-10 sm:px-0'>Join today. </p>
                     <div >
                         <div className='flex flex-col  sm:max-w-96 sm:px-0 px-10 self-center flex-1 '>
                             <Button onClick={() => setIsUnderConstructionModalOpen(true)} title={'Continue With google'} />
@@ -35,7 +38,7 @@ const LoginPage = () => {
                                 <div className='h-[0.5px] w-auto flex-1 bg-gray-200' />
                             </div>
                             <Button title={'Create Account'} variant={"primary"} onClick={() => setIsRegisterModalOpen(true)} />
-                            <p className='text-xs mb-[20px]'>By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use.</p>
+                            <p className='text-xs mb-[20px]'>By signing up, you agree to the <span className='text-blue-500'>Terms of Service</span> and <span className='text-blue-500'>Privacy Policy</span>, including Cookie Use.</p>
                             <div className='mt-[40px] flex flex-col'>
                                 <p>Already have an account?</p>
                                 <div onClick={() => setIsLoginModalOpen(true)} className='flex flex-1'>
@@ -46,7 +49,7 @@ const LoginPage = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex flex-1 flex-row items-center justify-center py-1 gap-4 flex-wrap' >
+            <div className='flex flex-1 flex-row items-center justify-center py-1 gap-4 flex-wrap px-10' >
                 <a href="" className='text-xs hover:underline hover:text-gray-500'>About</a>
                 <a href="" className='text-xs hover:underline hover:text-gray-500'>Download the X app</a>
                 <a href="" className='text-xs hover:underline hover:text-gray-500'>Help Center</a>
@@ -238,7 +241,7 @@ const ModalLogin = ({ setIsLoginModalOpen, isLoginModalOpen }: { setIsLoginModal
 
 const ModalUnderContruction = ({ setIsUnderConstructionModalOpen, isUnderContructionModalOpen }: { setIsUnderConstructionModalOpen: any, isUnderContructionModalOpen: boolean }) => {
     return (
-        <Modal title="Underconstruction!!!" centered={true} open={isUnderContructionModalOpen} footer={<></>} onOk={()=>setIsUnderConstructionModalOpen(false)} onCancel={()=>setIsUnderConstructionModalOpen(false)}>
+        <Modal title="Underconstruction!!!" centered={true} open={isUnderContructionModalOpen} footer={<></>} onOk={() => setIsUnderConstructionModalOpen(false)} onCancel={() => setIsUnderConstructionModalOpen(false)}>
             <p>Stay tune! Feature is underconstruction!</p>
         </Modal>
     )

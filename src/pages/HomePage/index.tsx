@@ -1,21 +1,28 @@
 import { Dropdown, MenuProps } from 'antd';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import Button from '../../components/atoms/Button';
-import { GearIcon, GifIcon, HomeIcon, ImageIcon, SearchIcon, XIcon } from '../../components/atoms/Icons';
-import AccountIcon from '../../components/atoms/Icons/AccountIcon';
-import ChatIcon from '../../components/atoms/Icons/ChatIcon';
-import LoveIcon from '../../components/atoms/Icons/LoveIcon';
-import PollIcon from '../../components/atoms/Icons/PollIcon';
-import RetweetIcon from '../../components/atoms/Icons/RetweetIcon';
-import SaveIcon from '../../components/atoms/Icons/SaveIcon';
-import ShareIcon from '../../components/atoms/Icons/ShareIcon';
-import StatsIcon from '../../components/atoms/Icons/StatsIcon';
-import ThreePoint from '../../components/atoms/Icons/ThreePoint';
+import {
+    GearIcon,
+    HomeIcon,
+    SearchIcon,
+    XIcon,
+    ImageIcon,
+    GifIcon,
+    AccountIcon,
+    ChatIcon,
+    LoveIcon,
+    PollIcon,
+    RetweetIcon,
+    SaveIcon,
+    ShareIcon,
+    StatsIcon,
+    ThreePoint,
+    BellIcon,
+    MessageIcon
+} from '../../components/atoms/Icons';
+import './styles.css';
 import AuthContext from '../../context/AuthContext';
 import { createPost, deletePostById, getAllPost } from '../../services/guarded/post';
-import './styles.css';
-import BellIcon from '../../components/atoms/Icons/BellIcon';
-import MessageIcon from '../../components/atoms/Icons/MessageIcon';
 
 type tabType = 'for-you' | 'following';
 
@@ -27,8 +34,6 @@ interface contentInt {
     userId: number;
     formattedUpdatedAtDifference: string;
 }
-
-
 
 const Home = () => {
     const [activeTab, setActiveTab] = useState<tabType>('for-you')
@@ -65,16 +70,8 @@ const Navigation = ({ activeTab, setActiveTab }: { activeTab: tabType, setActive
     const username = localStorage.getItem('username');
 
     const accountItems: MenuProps['items'] = [
-        // {
-        //     key: '1',
-        //     label: (
-        //         <a className='font-bold py-2' target="_blank" rel="noopener noreferrer" href="#">
-        //             Add an existing account
-        //         </a>
-        //     ),
-        // },
         {
-            key: '2',
+            key: '1',
             label: (
                 <div onClick={() => {
                     setIsLoggedInCtx(false);
@@ -200,7 +197,7 @@ const Content = ({ activeTab }: { activeTab: tabType }) => {
                     <img className='md:w-10 md:h-10 w-10 h-10 sm:w-10 sm:h-10 rounded-full' src='https://pbs.twimg.com/profile_images/1547743320780455936/VfK1dCFG_400x400.jpg' />
                     <div className='flex flex-1 flex-col'>
                         <div className='mx-4 border-b border-gray-200 pb-4 flex flex-1 flex-col'>
-                            <textarea value={textContent} onChange={handleInputChange} className='flex-1 py-2 my-1 text-lg font-lg focus:outline-none' placeholder='What is Happening?'>
+                            <textarea value={textContent} onChange={handleInputChange} className='flex-1 py-2 my-1 text-lg focus:outline-none' placeholder='What is Happening?'>
                             </textarea>
                             <div className='hover:bg-blue-50 text-blue-400 font-extrabold cursor-pointer rounded-full self-start px-2 py-1'>
                                 <p className='text-center'>🌐 Everyone can reply</p>
