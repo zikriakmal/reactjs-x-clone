@@ -23,6 +23,7 @@ import {
 import './styles.css';
 import AuthContext from '../../context/AuthContext';
 import { createPost, deletePostById, getAllPost } from '../../services/guarded/post';
+import ComposeIcon from '../../components/atoms/Icons/ComposeIcon';
 
 type tabType = 'for-you' | 'following';
 
@@ -37,29 +38,74 @@ interface contentInt {
 
 const Home = () => {
     const [activeTab, setActiveTab] = useState<tabType>('for-you')
+    const [activeMenu, setActiveMenu] = useState(0);
+    const { setIsLoggedInCtx } = useContext(AuthContext)
 
     return (
         <div className="container mx-auto lg:px-16">
+            {activeMenu === 0 ?
+                <>
+                    {/* top and side navigation for desktop and tablet */}
+                    <div className='hidden sm:block sticky top-0'>
+                        <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
+                    </div>
 
-            {/* top and side navigation for desktop and tablet */}
-            <div className='hidden sm:block sticky top-0'>
-                <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
-            </div>
+                    {/* top navigation for mobile */}
+                    <div className="flex-1 overflow-y-auto sm:hidden">
+                        <div className="sticky top-0 bg-white">
+                            <div className="flex flex-row px-8 items-center justify-between py-4">
+                                <img className="w-10 h-10 rounded-full" src="https://pbs.twimg.com/profile_images/1547743320780455936/VfK1dCFG_400x400.jpg" alt="" />
+                                <XIcon className={'h-6 w-6'} />
+                                <div onClick={() => { setIsLoggedInCtx(false); localStorage.removeItem('accessToken'); }}>
+                                    <GearIcon className={'h-6 w-6'} />
+                                </div>
+                            </div>
+                            <div className="flex flex-row px-8 border-b-gray-400 border-b-[0.5px] justify-around">
+                                <div className="text-center" onClick={() => setActiveTab('for-you')}>
+                                    <p className={`font-bold ${activeTab === 'for-you' ? "border-b-blue-400" : "border-transparent"} border-b-[3px] pb-2`}>For you</p>
+                                </div>
+                                <div className="text-center" onClick={() => setActiveTab('following')}>
+                                    <p className={`font-bold ${activeTab === 'following' ? "border-b-blue-400" : "border-transparent"} border-b-[3px] pb-2`}>Following</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            {/* top navigation for mobile */}
-            <div className='sm:hidden'>
-            </div>
+                    {/* this is the main content */}
+                    <Content activeTab={activeTab} />
+                </>
+                :
+                <div className="flex-1 self-center justify-center flex flex-col items-center h-svh overflow-y-auto">
+                    <p className="text-blue-500 font-extrabold text-2xl">Undermaintenance</p>
+                </div>
+            }
 
-            {/* this is the main content */}
-            <Content activeTab={activeTab} />
-
+            {/* all absolute */}
+            {activeMenu === 0 ?
+                <div className="sticky bottom-20 right-8 justify-end  self-end items-end flex mx-8">
+                    <div className="flex sm:hidden bg-blue-400 rounded-full h-14 w-14 justify-center items-center">
+                        <ComposeIcon className={'h-6 w-6 '} />
+                        {/* <ComposeSvg /> */}
+                    </div>
+                </div>
+                : null
+            }
             {/* bottom navigation for mobile */}
             <div className='sm:hidden sticky py-4 border-t border-t-gray-100 bottom-0 flex flex-row justify-around items-center w-dvw bg-white'>
-                <HomeIcon className={'h-6 w-6'} />
-                <SearchIcon className={'h-6 w-6'} />
-                <BellIcon className={'h-6 w-6'} />
-                <MessageIcon className={'h-6 w-6'} />
+                <div onClick={() => setActiveMenu(0)}>
+                    <HomeIcon isActive={activeMenu === 0} className={'h-6 w-6'} />
+                </div>
+                <div onClick={() => setActiveMenu(1)}>
+                    <SearchIcon isActive={activeMenu === 1} className={'h-6 w-6'} />
+                </div>
+                <div onClick={() => setActiveMenu(2)}>
+                    <BellIcon isActive={activeMenu === 2} className={'h-6 w-6'} />
+                </div>
+                <div onClick={() => setActiveMenu(3)}>
+                    <MessageIcon isActive={activeMenu === 3} className={'h-6 w-6'} />
+                </div>
             </div>
+
         </div>
     )
 }
